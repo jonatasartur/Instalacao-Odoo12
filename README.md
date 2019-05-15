@@ -24,35 +24,35 @@
   - Saia da conta do usuário atual e acesse com o usuário "root".
 
 ### Habilitar o acesso SSH no Ubuntu:
-	`vim /etc/ssh/sshd_config
+	> vim /etc/ssh/sshd_config
 
 - Comente a linha "PermitRootLogin prohibit-password" e adicione o item "PermitRootLogin yes" logo abaixo.
 
 	> #Authentication:
-	LoginGraceTime 120
-	#PermitRootLogin prohibit-password
-	**PermitRootLogin yes**
-	StrictModes yes
+	> LoginGraceTime 120
+	> #PermitRootLogin prohibit-password
+	> **PermitRootLogin yes**
+	> StrictModes yes
 
  - Reinicie o serviço SSH:
 	> systemctl restart sshd
 
 ### Atualize o servidor:
-  `sudo apt update && sudo apt upgrade
+	> sudo apt update && sudo apt upgrade
 
 ### Definir a região de fuso horário:
-	sudo dpkg-reconfigure tzdata
+	> sudo dpkg-reconfigure tzdata
 
 ### Instalar e configurar o servidor NTP Chrony:
-	apt-get install chrony
+	> apt-get install chrony
 
 	- Após a instalação, edite o arquivo de configuração e ajuste a sua zona de fuso horário:
-	`vim /etc/chrony/chrony.conf`
+		> vim /etc/chrony/chrony.conf`
 	
 	- Adicione o seguinte conteúdo:	
 		> server a.ntp.br iburst
-		server b.ntp.br iburst
-		server c.ntp.br iburst
+		> server b.ntp.br iburst
+		>server c.ntp.br iburst
 
 
 Confira a versão do Python. Deve ser acima da 3.6:
