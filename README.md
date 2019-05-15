@@ -17,64 +17,102 @@
   - Defina a respectiva senha do usuário
 
 ### Via terminal, habilite o usuário root:
-	> sudo passwd root
-  
+```sh
+$ sudo passwd root
+```
   - Informe a senha do usuário atual
   - Informe uma nova senha para o usuário "root" (duas vezes)
   - Saia da conta do usuário atual e acesse com o usuário "root".
 
 ### Habilitar o acesso SSH no Ubuntu:
-	> vim /etc/ssh/sshd_config
+```sh
+vim /etc/ssh/sshd_config
+```
 
 - Comente a linha "PermitRootLogin prohibit-password" e adicione o item "PermitRootLogin yes" logo abaixo.
 
-	> #Authentication:
-	> LoginGraceTime 120
-	> #PermitRootLogin prohibit-password
-	> **PermitRootLogin yes**
-	> StrictModes yes
+```
+#Authentication:
+LoginGraceTime 120
+#PermitRootLogin prohibit-password
+**PermitRootLogin yes**
+StrictModes yes
+```
+
+Markdown is a lightweight markup language based on the formatting conventions that people naturally use in email.  As [John Gruber] writes on the [Markdown site][df1]
+
+> The overriding design goal for Markdown's
+> formatting syntax is to make it as readable
+> as possible. The idea is that a
+> Markdown-formatted document should be
+> publishable as-is, as plain text, without
+> looking like it's been marked up with tags
+> or formatting instructions.
+
+This text you see here is *actually* written in Markdown! To get a feel for Markdown's syntax, type some text into the left window and watch the results in the right.
+
+
+
 
  - Reinicie o serviço SSH:
-	> systemctl restart sshd
+ ```sh
+ systemctl restart sshd
+ ```
 
 ### Atualize o servidor:
-	> sudo apt update && sudo apt upgrade
+```sh
+sudo apt update && sudo apt upgrade
+```
 
 ### Definir a região de fuso horário:
-	> sudo dpkg-reconfigure tzdata
+```sh
+sudo dpkg-reconfigure tzdata
+```
 
 ### Instalar e configurar o servidor NTP Chrony:
-	> apt-get install chrony
+```sh
+apt-get install chrony
+```
+- Após a instalação, edite o arquivo de configuração e ajuste a sua zona de fuso horário:
+```sh
+vim /etc/chrony/chrony.conf
+```
+- Adicione o seguinte conteúdo:
 
-	- Após a instalação, edite o arquivo de configuração e ajuste a sua zona de fuso horário:
-		> vim /etc/chrony/chrony.conf`
-	
-	- Adicione o seguinte conteúdo:	
-		> server a.ntp.br iburst
-		> server b.ntp.br iburst
-		>server c.ntp.br iburst
+> server a.ntp.br iburst
+> server b.ntp.br iburst
+> server c.ntp.br iburst
 
-
-Confira a versão do Python. Deve ser acima da 3.6:
-python3 --version
-
-
-Habilitar o repositório "universe" que contém os pacotes python-pip.
+### Habilitar o repositório "universe" que contém os pacotes python-pip.
+```sh
 vim /etc/apt/sources.list
+```
+- E então, adicionar "universe" , no final de cada linha, como mostrado a seguir:
 
-E então, adicionar "universe" , no final de cada linha, como mostrado a seguir:
-deb http://archive.ubuntu.com/ubuntu bionic main universe
-deb http://archive.ubuntu.com/ubuntu bionic-security main universe
-deb http://archive.ubuntu.com/ubuntu bionic-updates main universe
+> deb http://archive.ubuntu.com/ubuntu bionic main universe
+> deb http://archive.ubuntu.com/ubuntu bionic-security main universe
+> deb http://archive.ubuntu.com/ubuntu bionic-updates main universe
 
-Atualizar repositórios:
+- Atualizar repositórios:
+```sh
 sudo apt update && sudo apt upgrade
+```
+
+- Confira a versão do Python. Deve ser acima da 3.6:
+```sh
+python3 --version
+```
+
+- Reinicie o servidor:
+```sh
+init 6
+```
 
 
+## INSTALAÇÃO ODOO
 
-//INSTALAÇÃO ODOO
+### Instale as dependências:
 
-Instale as dependências:
 sudo apt install git gcc python3-pip build-essential python3-dev python3-venv python3-wheel libxslt-dev libzip-dev libldap2-dev libsasl2-dev python3-setuptools python3-pypdf2
 
 pip3 install Babel decorator docutils ebaysdk feedparser gevent greenlet html2text Jinja2 lxml Mako MarkupSafe mock num2words ofxparse passlib Pillow psutil psycogreen psycopg2 pydot pyparsing PyPDF2 pyserial python-dateutil python-openid pytz pyusb PyYAML qrcode reportlab requests six suds-jurko vatnumber vobject Werkzeug XlsxWriter xlwt xlrd
