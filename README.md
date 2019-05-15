@@ -1,14 +1,13 @@
-# Tutorial Instalação Odoo v12 (Fork TrustCode) no Ubuntu 18.04 LTS
+# Tutorial Instalação Odoo v12 (TrustCode) no Ubuntu 18.04 LTSTutorial Instalação Odoo v12 (TrustCode) no Ubuntu 18.04 LTS
 
 
 ## AJUSTES NO UBUNTU 18.04
 
 ### Configurar com IP manual a sua respectiva interface de rede:
-  - Subrede: 192.168.15.0/24
-  - Address: 192.168.15.5
-  - Gateway: 192.168.15.1
-  - Name Servers: 192.168.15.1, 8.8.8.8, 8.8.4.4
-  - Search Domains: ftm.local
+  - Defina o endereço IP (ex: 192.168.15.5)
+  - Defina sua subrede (ex: 192.168.15.0/24)
+  - Defina o seu respctivo gateway (ex: 192.168.15.1)
+  - Defina os seus servidores DNS (ex: 192.168.15.1, 8.8.8.8, 8.8.4.4)  
 
 ### Dados do usuário padrão:
   - Defina o nome de sua empresa (ex: COMDESK Tecnologia)
@@ -18,6 +17,7 @@
 
 ### Via terminal, habilite o usuário root:
   > sudo passwd root
+  
   - Informe a senha do usuário atual
   - Informe uma nova senha para o usuário "root" (duas vezes)
   - Saia da conta do usuário atual e acesse com o usuário "root".
@@ -25,12 +25,13 @@
 ### Habilitar o acesso SSH no Ubuntu:
     > vim /etc/ssh/sshd_config
 
-    - Comente a linha "PermitRootLogin prohibit-password" e adicione o item "PermitRootLogin yes" logo abaixo.
-        > # Authentication:
-        > LoginGraceTime 120
-        > #PermitRootLogin prohibit-password
-        > PermitRootLogin yes
-        > StrictModes yes
+- Comente a linha "PermitRootLogin prohibit-password" e adicione o item "PermitRootLogin yes" logo abaixo.
+
+    > #Authentication:
+    LoginGraceTime 120
+    #PermitRootLogin prohibit-password
+    **PermitRootLogin yes**
+    StrictModes yes
 
   - Reinicie o serviço SSH:
     > systemctl restart sshd
