@@ -1,5 +1,5 @@
 
-# Tutorial Instalação Odoo v12 (TrustCode) no Ubuntu 18.04 LTS
+# Tutorial Instalação Odoo v12 (TrustCode) no Ubuntu 18.04
 
 
 ## AJUSTES NO UBUNTU 18.04
@@ -17,28 +17,28 @@
   - Defina a respectiva senha do usuário
 
 ### Via terminal, habilite o usuário root:
-	`sudo passwd root`
+	> sudo passwd root
   
   - Informe a senha do usuário atual
   - Informe uma nova senha para o usuário "root" (duas vezes)
   - Saia da conta do usuário atual e acesse com o usuário "root".
 
 ### Habilitar o acesso SSH no Ubuntu:
-	`vim /etc/ssh/sshd_config`
+	`vim /etc/ssh/sshd_config
 
 - Comente a linha "PermitRootLogin prohibit-password" e adicione o item "PermitRootLogin yes" logo abaixo.
 
-	>#Authentication:
+	> #Authentication:
 	LoginGraceTime 120
 	#PermitRootLogin prohibit-password
 	**PermitRootLogin yes**
 	StrictModes yes
 
  - Reinicie o serviço SSH:
-    `systemctl restart sshd`
+	> systemctl restart sshd
 
 ### Atualize o servidor:
-  `sudo apt update && sudo apt upgrade`
+  `sudo apt update && sudo apt upgrade
 
 ### Definir a região de fuso horário:
 	sudo dpkg-reconfigure tzdata
