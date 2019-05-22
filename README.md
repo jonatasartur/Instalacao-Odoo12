@@ -30,14 +30,12 @@ vim /etc/ssh/sshd_config
 ```
 
 - Comente a linha "PermitRootLogin prohibit-password" e adicione o item "PermitRootLogin yes" logo abaixo.
+> #Authentication:
+> LoginGraceTime 120
+> #PermitRootLogin prohibit-password
+> **PermitRootLogin yes**
+> StrictModes yes
 
-```
-#Authentication:
-LoginGraceTime 120
-#PermitRootLogin prohibit-password
-**PermitRootLogin yes**
-StrictModes yes
-```
 
 Markdown is a lightweight markup language based on the formatting conventions that people naturally use in email.  As [John Gruber] writes on the [Markdown site][df1]
 
