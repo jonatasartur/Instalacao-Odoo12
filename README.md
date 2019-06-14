@@ -338,4 +338,230 @@ cat /var/log/odoo/odoo-server.log
 > localhost:8069 ou seu respectivo endereço IP (ex: 192.168.15.5:8069)
 
 
-Observação: Não crie o banco de dados ainda!!!
+***Observação: Não crie o banco de dados ainda!!!***
+
+
+# 3. Instalação Localização TrustCode no Odoo v12
+
+Neste tutorial iremos utilizar o repositório da Trustcode: https://github.com/Trust-Code/odoo-brasil
+
+- Logado como usuário "root" em seu servidor Odoo, faça a instalação das biliotecas:
+```
+apt-get install libjpeg-dev
+apt-get install libxml2-dev libxmlsec1-dev
+```
+
+- Baixe o arquivo de dependencias pip:
+```
+cd /tmp
+wget https://raw.githubusercontent.com/Trust-Code/odoo-brasil/12.0/requirements.txt
+```
+
+- Instale as dependências apt:
+```
+sudo apt-get install -y --no-install-recommends $(grep -v '^#' apt-requirements)
+```
+
+- Faça upgrade do pip:
+```
+sudo pip3 install --upgrade pip
+```
+
+- Instale as dependências pip:
+```
+sudo pip3 install -r requirements.txt
+```
+
+- Baixe o repositório Truscode do github no local correto:
+```
+cd /opt/odoo/custom/addons/
+sudo git clone --branch 12.0 https://github.com/Trust-Code/odoo-brasil.git
+sudo chown -R odoo:odoo /opt/odoo/custom/addons
+```
+
+- Adicione o repositorio "odoo-brasil" ao caminho 'addons_path' no arquivo de configuração:
+```
+sudo vim /etc/odoo-server.conf
+```
+
+- Adicione a seguinte linha em **'addons_path'**:
+> /opt/odoo/custom/addons/odoo-brasil
+
+- Reinicie o Odoo e confira como estão os serviços:
+```
+systemctl restart odoo12
+systemctl status odoo12
+sudo journalctl -u odoo12
+cat /var/log/odoo/odoo-server.log
+```
+
+# 4. Acesso ao sistema e criação do banco de dados
+
+- Acesse a interface web e crie o respectivo banco de dados:
+```
+http://<EndereçoIP>:8069
+```
+
+- Informe os respectivos parâmetros do banco de dados:
+```
+Master Password: <SenhaPostgres>
+Database Name: <NomeBancoDados>
+Email: <EmailUsuarioAdmin>
+Password: <SenhaUsuarioAdmin>
+Language: Portugues (BR)
+Country: Brazil
+```
+
+# 5. Instalação dos módulos da localização brasileira
+
+- Acesse o Odoo com os dados administrativos passados anteriormente:
+```
+Email: <EmailUsuarioAdmin>
+Senha: <SenhaUsuarioAdmin>
+```
+
+- Após login, localize canto superior esquerdo, o ícone de menus principais e escolha o menu "Configurações".
+
+-  Na janela que surge, clique na opção "Ativar o modo desenvolvedor"
+
+- Volte ao ícone de menus principais e clique na opção "Aplicativos" e clique em "Atualizações" e em "Atualizar lista de aplicativos"
+
+- Volte para o menu "Aplicativos" e procure por ‘br’ na barra de pesquisa para achar os módulos da localização.
+
+- Sugerimos a instalação dos seguintes módulos:
+
+> Contas a pagar e receber
+> Faturamento
+> Brazilian Localization Account
+> Cash Flow Report
+> Tax_Accounting
+> Brazilian Localisation ZIP Codes
+> Generate CNAB Files
+> Pagamentos via Boleto Bancário
+> Account E-Invoice
+> Vinculo entre boleto e NFe
+>
+> Vendas  sale_management
+> Compra  purchase
+> Contacts
+> Painéis
+
+
+- Os módulos a seguir  são opcionais, mas são largamente utilizados. Se desejar, também instale-os.
+
+> Funcionários  hr (Gestão de Funcionários)
+> Brazilian Localization HR
+> Frota (Gestão de Frotas de veículos)
+> Maintenance - HR (Manutenção de Equipamentos)
+
+
+# 6 - Configurações iniciais
+
+- Vamos habilitar as funções de contabilidade, para isso, confira se está ativo o Modo Desenvolvedor
+- Após, vá até o menu [Configurações] -> [Utilizadores e Empresas] -> [Usuários]
+- Edite o usuário "Administrador"
+- Habilite "Mostrar todas as funções de contabilidade"
+
+
+# 6.1 -  Plano de Contas
+
+O Plano de Contas é o conjunto de todas as contas existentes em determinada empresa, ou seja, o conjunto de contas deve abranger todo tipo de fato ou acontecimento que ocorre na empresa. O Plano serve como base para que a contabilidade direcione seus trabalhos de registros referentes à organização, chamado de escrituração contábil. Um plano de contas deve ser completo, bem estruturado, condizente com as normas e preceitos contábeis aceitos.
+
+Sua importância é fundamental, por isso sugerimos a criação de um módulo personalizado adequado para a sua empresa. Caso não possa desenvolver o respectivo módulo, sugerimos utilizar o "Plano de Contas Simplificado Brasil" (br_coa_simple) e ajustá-lo de acordo com suas necessidades.
+
+- Volte para o menu "Aplicativos" e procure por ‘br_coa_simple’ na barra de pesquisa e proceda com a instalação do módulo.
+
+- Após instalado o módulo, personalizado ou não, vá até [Faturamento] -> [Configuração] -> [Plano de Contas] e revise os campos "Tipo", "Tipo de conta" e "Permite Conciliação" de todos os itens.
+
+> Exemplos: 
+> 
+> Contas a Receber (Clientes)
+> Tipo: A Receber
+> Tipo de conta: Receita
+> Permite Conciliação: Sim
+> 
+> 
+> Clientes Recorrentes
+> Tipo: Receitas
+> Tipo de conta: Receita
+> Permite Conciliação: Sim
+> 
+> Clientes Não Recorrentes
+> Tipo: Receitas
+> Tipo de conta: Receita
+> Permite Conciliação: Sim
+> 
+> 
+> Contas a Pagar (Fornecedores)
+> Tipo: A Pagar
+> Tipo de conta: Despesa
+> 
+> 
+> Telefonia Fixa, Móvel e Internet
+> Tipo: Despesas
+> Tipo de conta: Despesa
+
+
+# 6.2 - Definir servidor de emails SMTP:
+
+- Ainda com o Modo Desenvolvedor ativo, vá até [Configurações] -> [Configurações Gerais] -> [External Email Servers] -> [Servidores de E-mail de Saída] e configure o seu respectivo servidor SMTP.
+
+> Exemplo Gmail: smtp.gmail.com, <endereço@gmail.com>, SSL/TLS, 465
+
+
+# 6.3 - Definir a moeda corrente
+
+- Em [Configurações] -> [Configurações Gerais] -> [Faturamento] e defina a "Moeda" como BRL (Real Brasil)
+
+
+# 6.4 - Configurar Contas Bancárias:
+
+- Vá até [Faturamento] -> [Configuração] -> [Contas Bancárias] e edite a conta existente de acordo a sua necessidade, e se necessário, crie mais contas.
+
+> Exemplo:
+> Banco CEF
+> Conta Bancária CC: xxxxxxxx-x
+> Número de Conta: xxxxxxxx
+> Agência: xxxx
+> Titular da Conta: Nome do titular da sua conta
+> Banco: CAIXA ECONOMICA FEDERAL - 104
+
+
+# 6.5 - Configuração de Diários:
+
+- Vá até [Faturamento] -> [Configuração] -> [Diários] e configure os diários que serão utilizados.
+
+- Marcar em todos os diários, nas **"Opções Avançadas"** a função **"Permite cancelar lançamentos"**
+
+> Exemplos:
+> 
+> **Faturas de Clientes**
+> Tipo: Venda
+> Conta de débito padrão: 1000 Contas a Receber (Clientes)
+> Conta de crédito padrão: 1000 Contas a Receber (Clientes)
+> ************************************************************
+> 
+> **Faturas de Fornecedor**
+> Tipo: Compra
+> Conta de débito padrão: 2000 Contas a Pagar (Fornecedores)
+> Conta de crédito padrão: 12000 Contas a Pagar (Fornecedores)
+> ************************************************************
+> 
+> **Banco CEF**
+> Tipo: Banco
+> Conta de débito padrão: 1031 Banco CEF
+> Conta de crédito padrão: 1031 Banco CEF
+> ************************************************************
+> 
+> **Dinheiro**
+> Tipo: Dinheiro
+> Conta de débito padrão: 1021 Dinheiro
+> Conta de crédito padrão: 1021 Dinheiro
+
+
+# 6.6 - Criação de novos usuários
+O usuário administrativo já está criado, mas provavelmente será necessário a criação de outros usuários para utilização do sistema.
+
+- Com o Modo Desenvolvedor ativo, vá até o menu [Configurações] -> [Utilizadores e Empresas] -> [Usuários] e crie os respectivos usuários para uso do sistema Odoo.
+
+- Também é possível definir restrições de acesso. Ex: Determinado usuário não tem acesso ao módulo financeiro.
