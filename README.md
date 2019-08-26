@@ -99,8 +99,9 @@ init 6
 ### 2.1 - Instale as dependências:
 
 ```sh
-sudo apt install git gcc python3-pip build-essential python3-dev python3-venv python3-wheel libxslt-dev libzip-dev libldap2-dev libsasl2-dev python3-setuptools python3-pypdf2
+sudo apt install git gcc python3-pip build-essential libpq-dev python3-dev python3-venv python3-wheel libxslt-dev libzip-dev libldap2-dev libsasl2-dev python3-setuptools python3-pypdf2
 ```
+
 ```sh
 pip3 install Babel decorator docutils ebaysdk feedparser gevent greenlet html2text Jinja2 lxml Mako MarkupSafe mock num2words ofxparse passlib Pillow psutil psycogreen psycopg2 pydot pyparsing PyPDF2 pyserial python-dateutil python-openid pytz pyusb PyYAML qrcode reportlab requests six suds-jurko vatnumber vobject Werkzeug XlsxWriter xlwt xlrd
 ```
@@ -162,23 +163,21 @@ Retype new UNIX password:**** (ex: Psql-123456)
 passwd: password updated successfully
 ```
 
-- Crie o usuário "Odoo":
+- Crie o usuário "odoo" no postgres, para isso, altere o usuário atual para postgres, a fim de ter os privilégios necessários para configurar a base de dados:
 ```sh
 sudo su postgres
 ```
+- Crie o novo usuário do banco de dados para gerenciamento. O usuário “odoo12” terá direitos de acesso para se conectar, criar e eliminar bancos de dados.
+
 ```
-createuser -s odoo
-```
-```
-createuser -s ubuntu_user_name (ex:comdesk)
+createuser --createdb --username postgres --no-createrole --no-superuser --pwprompt odoo12
 ```
 
-- Volte para o usuário anterior, pressionando Ctrl + d
-
-- Crie o usuário do banco de dados:
-```sh
-sudo su - postgres -c "createuser -s odoo"
+- Saia do usuário Postgres para continuar a instalação:
 ```
+exit
+```
+
 - Verifique a versão do Postgres:
 ```sh
 psql --version
@@ -186,7 +185,7 @@ psql --version
 > A versão deve ser: psql (PostgreSQL) 9.6.11
 
 
-- Crie o usuário do sistema Odoo:
+- Crie o usuário do sistema para executar o serviço Odoo:
 ```sh
 sudo useradd -m -d /opt/odoo -U -r -s /bin/bash odoo
 ```
@@ -255,11 +254,6 @@ sudo touch odoo-server.log
 sudo chown -R odoo:root /var/log/odoo
 ```
 
-- Crie o diretório e subdiretório de módulos customizados:
-```sh
-sudo su odoo -c "mkdir -p /opt/odoo/custom/addons"
-```
-
 - Mude as permissões da pasta do Odoo:
 ```sh
 sudo chown -R odoo:odoo /opt/odoo/*
@@ -280,7 +274,7 @@ sudo vim /etc/odoo-server.conf
 > db_password = False
 > xmlrpc_port = 8069
 > logfile = /var/log/odoo/odoo-server.log
-> addons_path = /opt/odoo/odoo-server/addons, /opt/odoo/custom/addons/oca, /opt/odoo/odoo-server/odoo, /opt/odoo/custom/addons, /opt/odoo/custom/addons/odoo-brasil, /opt/odoo/custom/addons/oca/server-ux, /opt/odoo/custom/addons/oca/account-financial-tools
+> addons_path = /opt/odoo/odoo-server/addons, /opt/odoo/custom/addons
 
 
 - Defina as respectivas permissões ao arquivo:
@@ -370,6 +364,11 @@ sudo pip3 install --upgrade pip
 - Instale as dependências pip:
 ```
 sudo pip3 install -r requirements.txt
+```
+
+- Crie o diretório e subdiretório de módulos customizados:
+```sh
+sudo su odoo -c "mkdir -p /opt/odoo/custom/addons"
 ```
 
 - Baixe o repositório Truscode do github no local correto:
@@ -471,7 +470,9 @@ Sua importância é fundamental, por isso sugerimos a criação de um módulo pe
 
 - Volte para o menu "Aplicativos" e procure por ‘br_coa_simple’ na barra de pesquisa e proceda com a instalação do módulo.
 
-- Após instalado o módulo, personalizado ou não, vá até [Faturamento] -> [Configuração] -> [Plano de Contas] e revise os campos "Tipo", "Tipo de conta" e "Permite Conciliação" de todos os itens.
+- Após instalado o módulo, personalizado ou não e com o Modo Desenvolvedor ativo, vá em "Configurações Gerais" -> "Faturamento" e no campo "Localização Fiscal", escolha o respectivo pacote (ex: Plano de Contas Simplificado Brasil).
+
+- Para concluir, vá até [Faturamento] -> [Configuração] -> [Plano de Contas] e revise os campos "Tipo", "Tipo de conta" e "Permite Conciliação" de todos os itens.
 
 > Exemplos: 
 > 
