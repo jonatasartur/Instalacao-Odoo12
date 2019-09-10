@@ -3,6 +3,8 @@
 
 Este tutorial é baseado na instalação da versão Comunity do Odoo 12 com a localização brasileira, ao qual utilizaremos o excelente fork da TrustCode (https://github.com/Trust-Code/odoo-brasil)
 
+Este tutorial também pode ser visto com uma melhor organização estrutural, em: http://comdesk.com.br/blog/item/10-instalacao-odoo-v12-no-ubuntu-18-04
+
 
 ## 1 - AJUSTES NO UBUNTU 18.04
 ### 1.1 - Configurar com IP manual a sua respectiva interface de rede:
