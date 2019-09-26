@@ -290,6 +290,11 @@ Para testar até aqui, mude para o usuario Odoo
 sudo su – odoo -s /bin/bash
 ```
 
+Voltar para o usuário root
+```sh
+exit
+```
+
 - Criar o arquivos systemd, para rodar o Odoo como serviço:
 ```sh
 vim /etc/systemd/system/odoo12.service
@@ -320,7 +325,7 @@ vim /etc/systemd/system/odoo12.service
 systemctl daemon-reload
 ```
 ```sh
-systemctl restart odoo12.service
+systemctl start odoo12.service
 ```
 ```
 systemctl status odoo12.service
