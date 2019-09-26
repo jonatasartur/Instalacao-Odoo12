@@ -285,6 +285,11 @@ sudo chown odoo: /etc/odoo-server.conf
 sudo chmod 640 /etc/odoo-server.conf
 ```
 
+Para testar até aqui, mude para o usuario Odoo
+```sh
+sudo su – odoo -s /bin/bash
+```
+
 - Criar o arquivos systemd, para rodar o Odoo como serviço:
 ```sh
 vim /etc/systemd/system/odoo12.service
