@@ -453,6 +453,7 @@ Senha: <SenhaUsuarioAdmin>
 > Vinculo entre boleto e NFe
 >
 > Vendas  sale_management
+> Sale Purchase sale_purchase
 > Inventario stock
 > Compra  purchase
 > Contacts
